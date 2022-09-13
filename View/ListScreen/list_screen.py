@@ -3,6 +3,7 @@ from kivymd.uix.screen import MDScreen
 from kivymd.uix.list import OneLineListItem
 from kivymd.uix.dialog import MDDialog
 from kivymd.uix.boxlayout import MDBoxLayout
+from kivymd.uix.label import MDLabel
 
 from Model.repository.list_repository import list_repository
 from Model.repository.task_repository import task_repository
@@ -100,3 +101,7 @@ class ListScreenView(MDScreen):
                                          theme_text_color='Hint'
                                          )
                 self.ids.today_tasks.add_widget(widget)
+            if not tasks:
+                txt = 'No tasks found\nChoose or create a new List and make a task within.'
+                label = MDLabel(text=txt, font_style='H4', theme_text_color='Hint', halign='center', valign='center')
+                self.ids.today_tasks.add_widget(label)
