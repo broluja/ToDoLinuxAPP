@@ -1,0 +1,152 @@
+<Content>
+    adaptive_height: True
+    height: dp(250)
+    canvas.before:
+        Color:
+            rgba: 73/255, 73/255, 73/255, .7
+        Rectangle:
+            size: self.size
+            pos: self.pos
+    MDBoxLayout:
+
+        MDBoxLayout:
+            orientation: 'vertical'
+            padding: dp(5)
+            MDLabel:
+                text: 'Notes'
+                font_style:'Body1'
+                theme_text_color: 'Hint'
+                size_hint: 1, .2
+            TextInput:
+                id: content
+                multiline: True
+                size_hint: 1, .8
+        MDBoxLayout:
+            orientation: 'vertical'
+            padding: dp(10)
+            MDFlatButton:
+                id: date
+                text: 'Due Date'
+                font_style:'Body1'
+                theme_text_color: 'Hint'
+                on_press: root.show_date_picker()
+                pos_hint: {'center_x': .8}
+            MDLabel:
+                text: 'Priority'
+                font_style:'Body1'
+                theme_text_color: 'Hint'
+
+            MDBoxLayout:
+                MDCheckbox:
+                    group: f'Priority group{root.counter}'
+                    active: root.priority == 'Low'
+                    id: low_box
+                    size_hint: None, None
+                    size: dp(45), dp(45)
+                    on_active:
+                        root.set_priority('Low')
+                MDLabel:
+                    id: low
+                    text: '[ref=<str>]Low[/ref]'
+                    markup: True
+                    on_ref_press: low_box.active = True
+
+            MDBoxLayout:
+                MDCheckbox:
+                    group: f'Priority group{root.counter}'
+                    active: root.priority == 'Medium'
+                    id: medium_box
+                    size_hint: None, None
+                    size: dp(45), dp(45)
+                    on_active:
+                        root.set_priority('Medium')
+                MDLabel:
+                    id: medium
+                    text: '[ref=<str>]Medium[/ref]'
+                    markup: True
+                    on_ref_press: medium_box.active = True
+
+
+            MDBoxLayout:
+                MDCheckbox:
+                    group: f'Priority group{root.counter}'
+                    active: root.priority == 'High'
+                    id: high_box
+                    size_hint: None, None
+                    size: dp(45), dp(45)
+                    on_active:
+                        root.set_priority('High')
+                MDLabel:
+                    id: high
+                    text: '[ref=<str>]High[/ref]'
+                    markup: True
+                    on_ref_press: high_box.active = True
+
+            MDBoxLayout:
+                MDFlatButton:
+                    text: 'Save'
+                    font_style:'Body1'
+                    theme_text_color: 'Hint'
+                    on_press:
+                        app.root.get_screen('main').save_task(root.task_id, root.parent.panel_cls.text, content.text, root.date, root.priority)
+                        root.parent.check_open_panel(root.parent.panel_cls)
+
+                MDFlatButton:
+                    text: 'Delete'
+                    font_style:'Body1'
+                    theme_text_color: 'Hint'
+                    on_press:
+                        app.root.get_screen('main').delete_task(root.task_id)
+                        app.root.get_screen('main').ids.hidden.remove_widget(root.parent)
+
+<MainScreenView>
+    MDBoxLayout:
+        orientation: 'vertical'
+        MDTopAppBar:
+            title: root.selected_list + ' list'
+            left_action_items: [["chevron-left", lambda x: app.manager_screen.switch_screen('list')]]
+            right_action_items: [["monitor-screenshot", lambda x: root.open_color_picker()], ["menu", lambda x: x]]
+
+        MDGridLayout:
+            cols:3
+            spacing: dp(20)
+            padding: dp(20)
+
+            MDBoxLayout:
+                orientation: 'vertical'
+                MDBoxLayout:
+                    orientation: 'vertical'
+                    id: hidden
+                    adaptive_height: True
+                    pos_hint: {'center_x': .5}
+                    spacing: dp(5)
+                MDBoxLayout:
+                    Widget:
+
+            MDBoxLayout:
+                orientation: 'vertical'
+                MDBoxLayout:
+                    adaptive_height: True
+                    pos_hint: {'center_x': .5}
+                    spacing: dp(5)
+                    MDTextField:
+                        id: task
+                        icon_left: 'plus'
+                        mode: 'round'
+                        hint_text: 'New task...'
+                        normal_color: app.theme_cls.accent_color
+                        pos_hint: {'center_x': .5}
+                        on_text_validate: root.add_task(task.text)
+
+                MDLabel:
+                    font_style: 'H2'
+                    halign: 'center'
+                    theme_text_color: 'Hint'
+                    markup: True
+                    text: 'Try to clear some tasks.\n[size=20]You can add tasks using + above[/size]' if root.tasks else 'No tasks found'
+
+            MDBoxLayout:
+                orientation: 'vertical'
+                id: lists
+                adaptive_height: True
+                pos_hint: {'center_x': .5}

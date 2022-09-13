@@ -1,0 +1,103 @@
+<DialogContent>
+    orientation: 'vertical'
+    padding: dp(10)
+    size_hint_y: None
+    height: dp(150)
+
+    MDTextField:
+        id: list_field
+        hint_text: 'My list...'
+        mode: 'rectangle'
+        max_text_length: 20
+        helper_text: 'Make unique name'
+        size_hint: None, None
+        width: dp(350)
+
+    MDBoxLayout:
+        MDFlatButton:
+            text: 'Create'
+            on_press: root.create_list()
+            on_release:
+                app.manager_screen.get_screen('list').dialog_box.dismiss()
+                app.manager_screen.get_screen('list').refresh_lists()
+            theme_text_color: 'Hint'
+
+        MDFlatButton:
+            text: 'Cancel'
+            on_release: app.manager_screen.get_screen('list').dialog_box.dismiss()
+            theme_text_color: 'Hint'
+
+
+<ListScreenView>
+    on_enter:
+        navigation.switch_tab('screen_one')
+
+    MDBoxLayout:
+        orientation: 'vertical'
+        id: layout
+        MDTopAppBar:
+            title: ''
+            right_action_items: [["alpha-l-box-outline", lambda x: app.manager_screen.switch_screen('card')], ["monitor-screenshot", lambda x: x], ["menu", lambda x: print(app.manager_screen.has_screen('main'))]]
+            left_action_items: [["folder-plus-outline", lambda x: root.open_dialog()]]
+
+        MDBottomNavigation:
+            id: navigation
+            panel_color: .2, .2, .2, 1
+            text_color_active: 1, 1, 1, 1
+            MDBottomNavigationItem:
+                icon: ''
+            MDBottomNavigationItem:
+                icon: ''
+
+            MDBottomNavigationItem:
+                name: 'screen_one'
+                id: screen_one
+                active: True
+                text: 'Lists'
+                icon: ''
+
+                MDBoxLayout:
+                    orientation: 'vertical'
+                    id: listing
+                    adaptive_height: True
+                    pos_hint: {'center_x': .5, 'top': 1}
+                    spacing: dp(5)
+
+                Widget:
+
+            MDBottomNavigationItem:
+                name: 'screen 2'
+                id: screen_two
+                text: 'Scheduled'
+                icon: ''
+                on_tab_press: root.show_scheduled()
+
+                MDBoxLayout:
+                    orientation: 'vertical'
+                    id: scheduled
+                    adaptive_height: True
+                    pos_hint: {'center_x': .5, 'top': 1}
+                    spacing: dp(5)
+
+                Widget:
+
+            MDBottomNavigationItem:
+                name: 'screen 3'
+                id: screen_three
+                text: 'Today'
+                icon: ''
+                on_tab_press: root.show_today_tasks()
+
+                MDBoxLayout:
+                    orientation: 'vertical'
+                    id: today_tasks
+                    adaptive_height: True
+                    pos_hint: {'center_x': .5, 'top': 1}
+                    spacing: dp(5)
+
+                Widget:
+
+            MDBottomNavigationItem:
+                icon: ''
+            MDBottomNavigationItem:
+                icon: ''

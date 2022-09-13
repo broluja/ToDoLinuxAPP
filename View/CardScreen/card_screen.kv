@@ -1,0 +1,79 @@
+
+<CardScreenView>
+    MDBoxLayout:
+        orientation: 'vertical'
+        MDTopAppBar:
+            title: ''
+            right_action_items: [["format-list-text", lambda x: app.manager_screen.switch_screen('list')], ["monitor-screenshot", lambda x: x], ["menu", lambda x: x]]
+            left_action_items: [["folder-plus-outline", lambda x: root.open_dialog()]]
+        MDGridLayout:
+            cols: 6
+            id: listing
+            size_hint: None, None
+            size: root.size
+            adaptive_height: True
+            padding: dp(30)
+            spacing: dp(20)
+
+        MDBoxLayout:
+            Widget:
+
+
+<CardDialogContent>
+    orientation: 'vertical'
+    padding: dp(10)
+    size_hint_y: None
+    height: dp(150)
+
+    MDTextField:
+        id: list_field
+        hint_text: 'My list...'
+        mode: 'rectangle'
+        max_text_length: 20
+        helper_text: 'Make unique name'
+        size_hint: None, None
+        width: dp(350)
+
+    MDBoxLayout:
+        MDFlatButton:
+            text: 'Create'
+            on_press: root.create_list()
+            on_release:
+                app.manager_screen.get_screen('card').list_creation_box.dismiss()
+                app.manager_screen.get_screen('card').refresh_lists()
+            theme_text_color: 'Hint'
+
+        MDFlatButton:
+            text: 'Cancel'
+            on_release: app.manager_screen.get_screen('card').list_creation_box.dismiss()
+            theme_text_color: 'Hint'
+
+
+<MD3Card>
+    padding: dp(10)
+    size_hint: None, None
+    size: dp(260), dp(400)
+    focus_behavior: True
+
+    MDRelativeLayout:
+        size_hint: None, None
+        size: root.size
+
+        MDIconButton:
+            icon: "linux"
+            pos:
+                root.width - (self.width + root.padding[0] + dp(4)), root.height - (self.height + root.padding[0] + dp(4))
+
+        MDLabel:
+            id: label
+            text: root.text
+            adaptive_size: True
+            theme_text_color: 'Hint'
+            pos:
+                root.width - (root.width - dp(10)), root.height - (self.height + root.padding[0] + dp(4))
+
+        MDLabel:
+            id: tasks
+            text: root.tasks
+            theme_text_color: 'Hint'
+            pos: root.width - (root.width - dp(10)), root.height - (self.height + root.padding[0] + dp(4))
