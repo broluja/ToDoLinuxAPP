@@ -1,7 +1,7 @@
 import os
 
 from kivymd.app import MDApp
-from kivy.uix.screenmanager import ScreenManager, FadeTransition, Screen
+from kivy.uix.screenmanager import ScreenManager, FadeTransition
 from kivy.clock import Clock
 
 from Controller.screens import screens

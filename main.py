@@ -13,6 +13,7 @@ os.environ['LINUX_TODO_APP'] = str(Path(__file__).parent)
 
 
 class LinuxTodoApp(MDApp):
+    """Linux App for scheduling tasks."""
     data = ObjectProperty()
 
     def __init__(self, **kwargs):
@@ -22,7 +23,7 @@ class LinuxTodoApp(MDApp):
         self.manager_screen = ManagerScreen()
 
     def __str__(self):
-        return 'CityOptics App'
+        return 'Linux ToDo App'
 
     def build(self):
         self.manager_screen.add_widget(self.manager_screen.create_screen('list'))

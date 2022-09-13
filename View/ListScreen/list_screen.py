@@ -100,4 +100,3 @@ class ListScreenView(MDScreen):
                                          theme_text_color='Hint'
                                          )
                 self.ids.today_tasks.add_widget(widget)
-
