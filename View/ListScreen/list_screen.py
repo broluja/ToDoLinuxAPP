@@ -78,6 +78,9 @@ class ListScreenView(MDScreen):
 
     def show_scheduled(self):
         tasks = self.task_manager.get_multi()
+        if not tasks:
+            self.create_label()
+            return
         for task in tasks:
             text_to_display = f'{task.title}: {task.content}'
             widget = OneLineListItem(text=f'{text_to_display} - Due date: {task.date.date()}',
@@ -89,9 +92,7 @@ class ListScreenView(MDScreen):
     def show_today_tasks(self):
         tasks = self.task_manager.get_today_tasks()
         if not tasks:
-            txt = 'No tasks found\nChoose or create a new List and make a task within.'
-            label = MDLabel(text=txt, font_style='H4', theme_text_color='Hint', halign='center', valign='center')
-            self.ids.today_tasks.add_widget(label)
+            self.create_label()
             return
         for task in tasks:
             text_to_display = f'{task.title}: {task.content}'
@@ -101,3 +102,7 @@ class ListScreenView(MDScreen):
                                      )
             self.ids.today_tasks.add_widget(widget)
 
+    def create_label(self):
+        txt = 'No tasks found\nChoose or create a new List and make a task within.'
+        label = MDLabel(text=txt, font_style='H4', theme_text_color='Hint', halign='center', valign='center')
+        self.ids.today_tasks.add_widget(label)
