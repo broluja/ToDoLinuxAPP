@@ -20,7 +20,7 @@ class TaskRepository(CRUDBase[Task]):
 
     def get_today_tasks(self):
         today = datetime.now().date()
-        return self.db.query(Task).filter(Task.date == today)
+        return self.db.query(Task).filter(Task.date == today).all()
 
 
 task_repository = TaskRepository(Task)

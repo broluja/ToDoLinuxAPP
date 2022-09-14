@@ -72,7 +72,7 @@ class CardScreenView(MDScreen):
                 )
                 widget.id = table['Name']
                 table['Populated'] = True
-                self.ids.listing.add_widget(widget)  # TODO: task have to have all fields populated
+                self.ids.listing.add_widget(widget)
 
     def select_list(self, widget, touch):
         self.selected = widget.text

@@ -71,6 +71,7 @@
                 text: 'Scheduled'
                 icon: ''
                 on_tab_press: root.show_scheduled()
+                on_leave: scheduled.clear_widgets(scheduled.children)
 
                 MDBoxLayout:
                     orientation: 'vertical'
@@ -87,6 +88,7 @@
                 text: 'Today'
                 icon: ''
                 on_tab_press: root.show_today_tasks()
+                on_leave: today_tasks.clear_widgets(today_tasks.children)
 
                 MDBoxLayout:
                     orientation: 'vertical'

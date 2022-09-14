@@ -33,8 +33,6 @@ class ListScreenView(MDScreen):
     lists = ListProperty()
     selected = StringProperty()
     dialog_box = ObjectProperty()
-    scheduled_tasks = ListProperty([])
-    today_tasks = ListProperty([])
 
     def __init__(self, **kwargs):
         super(ListScreenView, self).__init__(**kwargs)
@@ -80,28 +78,26 @@ class ListScreenView(MDScreen):
 
     def show_scheduled(self):
         tasks = self.task_manager.get_multi()
-        if not self.scheduled_tasks:
-            self.scheduled_tasks = tasks
-            for task in tasks:
-                text_to_display = f'{task.title}: {task.content}'
-                widget = OneLineListItem(text=f'{text_to_display} - Due date: {task.date.date()}',
-                                         font_style='H6',
-                                         theme_text_color='Hint'
-                                         )
-                self.ids.scheduled.add_widget(widget)
+        for task in tasks:
+            text_to_display = f'{task.title}: {task.content}'
+            widget = OneLineListItem(text=f'{text_to_display} - Due date: {task.date.date()}',
+                                     font_style='H6',
+                                     theme_text_color='Hint'
+                                     )
+            self.ids.scheduled.add_widget(widget)
 
     def show_today_tasks(self):
         tasks = self.task_manager.get_today_tasks()
-        if not self.today_tasks:
-            self.today_tasks = tasks
-            for task in tasks:
-                text_to_display = f'{task.title}: {task.content}'
-                widget = OneLineListItem(text=f'{text_to_display} - Scheduled for TODAY',
-                                         font_style='H6',
-                                         theme_text_color='Hint'
-                                         )
-                self.ids.today_tasks.add_widget(widget)
-            if not tasks:
-                txt = 'No tasks found\nChoose or create a new List and make a task within.'
-                label = MDLabel(text=txt, font_style='H4', theme_text_color='Hint', halign='center', valign='center')
-                self.ids.today_tasks.add_widget(label)
+        if not tasks:
+            txt = 'No tasks found\nChoose or create a new List and make a task within.'
+            label = MDLabel(text=txt, font_style='H4', theme_text_color='Hint', halign='center', valign='center')
+            self.ids.today_tasks.add_widget(label)
+            return
+        for task in tasks:
+            text_to_display = f'{task.title}: {task.content}'
+            widget = OneLineListItem(text=f'{text_to_display} - Scheduled for TODAY',
+                                     font_style='H6',
+                                     theme_text_color='Hint'
+                                     )
+            self.ids.today_tasks.add_widget(widget)
+
