@@ -35,7 +35,6 @@ class MainScreenView(MDScreen):
     tasks = ListProperty()
     selected_list = StringProperty()
     list = DictProperty()
-    counter = 1
 
     def __init__(self, **kwargs):
         super(MainScreenView, self).__init__(**kwargs)
