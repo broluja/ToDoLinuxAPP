@@ -1,3 +1,4 @@
+"""Basic ORM model."""
 from fastapi.encoders import jsonable_encoder
 from typing import Any, Dict, Generic, List, Optional, Type, TypeVar
 
@@ -9,9 +10,7 @@ ModelType = TypeVar("ModelType")
 
 class CRUDBase(Generic[ModelType]):
     def __init__(self, model: Type[ModelType]):
-        """
-        CRUD object with default methods to Create, Read, Update, Delete (CRUD).
-        """
+        """CRUD object with default methods to Create, Read, Update, Delete (CRUD)."""
         self.model = model
         self.db = next(get_db())
 

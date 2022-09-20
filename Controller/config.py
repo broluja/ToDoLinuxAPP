@@ -1,3 +1,5 @@
+"""Config file for Database and Mail."""
+
 import os
 from dotenv import load_dotenv
 

@@ -1,3 +1,4 @@
+"""Creating Model for 'tasks' table."""
 import uuid
 import enum
 
@@ -17,7 +18,7 @@ class TypeEnum(enum.Enum):
 
 
 class Task(Base):
-    """ Model for data table 'tasks' """
+    """Model for data table 'tasks'."""
 
     __tablename__ = 'tasks'
 
@@ -30,6 +31,10 @@ class Task(Base):
     is_complete = Column(Boolean, default=False)
 
     def to_dict(self):
+        """
+        Returns:
+            dict
+        """
         return {
             'id': self.id,
             'list_id': self.list_id,
