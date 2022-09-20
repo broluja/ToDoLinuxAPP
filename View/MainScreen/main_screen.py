@@ -60,16 +60,13 @@ class MainScreenView(MDScreen):
         for task in self.tasks:
             content = Content(task_id=task.id)
             content.ids.content.text = task.content
-            panel = MDExpansionPanel(
-                icon="linux-mint",
-                content=content,
-                panel_cls=MDExpansionPanelThreeLine(
-                    text=task.title,
-                    secondary_text=f'Due Date: {task.date.date()}',
-                    tertiary_text=f'{task.priority}',
-                    font_style='Body1',
-                    theme_text_color='Hint'
-                ))
+            panel = MDExpansionPanel(icon="linux-mint", content=content, panel_cls=MDExpansionPanelThreeLine(
+                text=task.title,
+                secondary_text=f'Due Date: {task.date.date()}',
+                tertiary_text=f'{task.priority}',
+                font_style='Body1',
+                theme_text_color='Hint'
+            ))
             self.ids.hidden.add_widget(panel)
 
     def on_leave(self):
@@ -77,15 +74,12 @@ class MainScreenView(MDScreen):
         self.tasks = []
 
     def add_task(self, text):
-        task = MDExpansionPanel(
-                icon="linux-mint",
-                content=Content(),
-                panel_cls=MDExpansionPanelThreeLine(
-                    text=text,
-                    secondary_text='',
-                    font_style='Body1',
-                    theme_text_color='Hint'
-                ))
+        task = MDExpansionPanel(icon="linux-mint", content=Content(), panel_cls=MDExpansionPanelThreeLine(
+            text=text,
+            secondary_text='',
+            font_style='Body1',
+            theme_text_color='Hint'
+        ))
         self.ids.hidden.add_widget(task)
         self.ids.task.text = ''
 
@@ -111,19 +105,18 @@ class MainScreenView(MDScreen):
             return DatabaseException(message='Failed.')
 
     def update_task(self, task: Task, title, content, date, priority, is_complete):
-        self.task_manager.update(task,
-                                 fields={
-                                     'title': title,
-                                     'content': content,
-                                     'date': date,
-                                     'priority': priority,
-                                     'is_complete': is_complete
-                                 })
+        self.task_manager.update(task, fields={
+            'title': title,
+            'content': content,
+            'date': date,
+            'priority': priority,
+            'is_complete': is_complete
+        })
 
     def open_color_picker(self):
         color_picker = MDColorPicker(size_hint=(0.4, 0.8))
         color_picker.open()
-        color_picker.bind(on_release=self.get_selected_color,)
+        color_picker.bind(on_release=self.get_selected_color, )
 
     def get_selected_color(self, picker: MDColorPicker, type_color: str, selected_color):
         self.md_bg_color = selected_color
