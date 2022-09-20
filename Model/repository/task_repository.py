@@ -27,7 +27,7 @@ class TaskRepository(CRUDBase[Task]):
         Returns:
             list of task objects.
         """
-        return self.db.query(Task).filter(Task.list_id == list_id).first()
+        return self.db.query(Task).filter(Task.list_id == list_id).all()
 
     def get_task_by_id(self, task_id: str) -> Optional[Task]:
         """

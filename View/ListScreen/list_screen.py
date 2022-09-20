@@ -12,7 +12,7 @@ from Controller.exceptions import DatabaseException
 
 
 class DialogContent(MDBoxLayout):
-
+    """Dialog box for creating new List."""
     def __init__(self, **kwargs):
         super(DialogContent, self).__init__(**kwargs)
         self.notifier = NotificationManager()
@@ -30,6 +30,7 @@ class DialogContent(MDBoxLayout):
 
 
 class ListScreenView(MDScreen):
+    """View of created lists."""
     lists = ListProperty()
     selected = StringProperty()
     dialog_box = ObjectProperty()

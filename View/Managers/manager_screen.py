@@ -21,12 +21,8 @@ class ManagerScreen(ScreenManager):
         if name_screen not in self._screens:
             self._screens.append(name_screen)
             exec(f"import View.{screens[name_screen]}")
-            self.app.load_all_kv_files(
-                os.path.join(self.app.directory, "View", screens[name_screen].split(".")[0])
-            )
-            view = eval(
-                f'View.{screens[name_screen]}.{screens[name_screen].split(".")[0]}View()'
-            )
+            self.app.load_all_kv_files(os.path.join(self.app.directory, "View", screens[name_screen].split(".")[0]))
+            view = eval(f'View.{screens[name_screen]}.{screens[name_screen].split(".")[0]}View()')
             view.name = name_screen
             if selected_list:
                 view.selected_list = selected_list

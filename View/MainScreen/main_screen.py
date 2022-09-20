@@ -11,6 +11,7 @@ from Controller.exceptions import DatabaseException
 
 
 class Content(MDBoxLayout):
+    """Dialog box for creating new Task."""
     task_id = ObjectProperty()
     counter = NumericProperty()
     priority = ObjectProperty()
@@ -32,6 +33,7 @@ class Content(MDBoxLayout):
 
 
 class MainScreenView(MDScreen):
+    """Main screen for displaying tasks of chosen List."""
     tasks = ListProperty()
     selected_list = StringProperty()
     list = DictProperty()

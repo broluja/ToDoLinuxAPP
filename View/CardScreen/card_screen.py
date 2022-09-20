@@ -11,7 +11,7 @@ from Model.repository.list_repository import list_repository
 
 
 class CardDialogContent(MDBoxLayout):
-
+    """Dialog box for creating a new list."""
     def __init__(self, **kwargs):
         super(CardDialogContent, self).__init__(**kwargs)
         self.list_manager = list_repository
@@ -29,13 +29,14 @@ class CardDialogContent(MDBoxLayout):
 
 
 class MD3Card(MDCard, RoundedRectangularElevationBehavior):
-    """ Implements a material design v3 card. """
+    """Implements a material design v3 card."""
     text = StringProperty()
     tasks = StringProperty('No tasks.')
     elevation = 4.0
 
 
 class CardScreenView(MDScreen):
+    """View of the lists in form of Material design V3 card."""
     lists = ListProperty()
     selected = StringProperty()
     list_creation_box = ObjectProperty()
