@@ -1,6 +1,6 @@
 <Content>
     adaptive_height: True
-    height: dp(250)
+    height: dp(300)
     canvas.before:
         Color:
             rgba: 73/255, 73/255, 73/255, .7
@@ -8,10 +8,11 @@
             size: self.size
             pos: self.pos
     MDBoxLayout:
-
+        orientation: 'vertical'
         MDBoxLayout:
             orientation: 'vertical'
             padding: dp(5)
+            size_hint: 1, .8
             MDLabel:
                 text: 'Notes'
                 font_style:'Body1'
@@ -22,19 +23,21 @@
                 multiline: True
                 size_hint: 1, .8
         MDBoxLayout:
-            orientation: 'vertical'
-            padding: dp(10)
-            MDFlatButton:
-                id: date
-                text: 'Due Date'
-                font_style:'Body1'
-                theme_text_color: 'Hint'
-                on_press: root.show_date_picker()
-                pos_hint: {'center_x': .8}
-            MDLabel:
-                text: 'Priority'
-                font_style:'Body1'
-                theme_text_color: 'Hint'
+            size_hint: 1, .2
+            padding: dp(5)
+            MDBoxLayout:
+                orientation: 'vertical'
+                MDFlatButton:
+                    id: date
+                    text: 'Deadline'
+                    font_style:'Body1'
+                    theme_text_color: 'Hint'
+                    on_press: root.show_date_picker()
+                    pos_hint: {'center_x': .8}
+                MDLabel:
+                    text: 'Priority'
+                    font_style:'Body1'
+                    theme_text_color: 'Hint'
 
             MDBoxLayout:
                 MDCheckbox:
@@ -92,7 +95,7 @@
                         root.parent.check_open_panel(root.parent.panel_cls)
 
                 MDFlatButton:
-                    text: 'Delete'
+                    text: 'X'
                     font_style:'Body1'
                     theme_text_color: 'Hint'
                     on_press:

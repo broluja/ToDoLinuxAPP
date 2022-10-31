@@ -2,6 +2,7 @@ import os
 from pathlib import Path
 
 from kivy.config import Config
+
 Config.set("graphics", "width", "1800")
 Config.set("graphics", "height", "1000")
 from kivy.properties import ObjectProperty

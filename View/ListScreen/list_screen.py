@@ -13,6 +13,7 @@ from Controller.exceptions import DatabaseException
 
 class DialogContent(MDBoxLayout):
     """Dialog box for creating new List."""
+
     def __init__(self, **kwargs):
         super(DialogContent, self).__init__(**kwargs)
         self.notifier = NotificationManager()
@@ -26,7 +27,7 @@ class DialogContent(MDBoxLayout):
         try:
             list_repository.create({'name': list_name})
         except Exception as e:
-            raise DatabaseException(message=str(e)) from e
+            raise DatabaseException(user_message=str(e)) from e
 
 
 class ListScreenView(MDScreen):
@@ -84,10 +85,11 @@ class ListScreenView(MDScreen):
             return
         for task in tasks:
             text_to_display = f'{task.title}: {task.content}'
-            widget = OneLineListItem(text=f'{text_to_display} - Due date: {task.date.date()}',
-                                     font_style='H6',
-                                     theme_text_color='Hint'
-                                     )
+            widget = OneLineListItem(
+                text=f'{text_to_display} - Due date: {task.date.date() if task.date else "Not scheduled"}',
+                font_style='H6',
+                theme_text_color='Hint'
+            )
             self.ids.scheduled.add_widget(widget)
 
     def show_today_tasks(self):
@@ -98,9 +100,7 @@ class ListScreenView(MDScreen):
         for task in tasks:
             text_to_display = f'{task.title}: {task.content}'
             widget = OneLineListItem(text=f'{text_to_display} - Scheduled for TODAY',
-                                     font_style='H6',
-                                     theme_text_color='Hint'
-                                     )
+                                     font_style='H6', theme_text_color='Hint')
             self.ids.today_tasks.add_widget(widget)
 
     def create_label(self):

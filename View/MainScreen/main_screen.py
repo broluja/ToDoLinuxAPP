@@ -8,6 +8,7 @@ from Model.repository.task_repository import task_repository
 from Model.repository.list_repository import list_repository
 from Model.models.task_model import Task
 from Controller.exceptions import DatabaseException
+from View.Managers.notification_manager import NotificationManager
 
 
 class Content(MDBoxLayout):
@@ -42,21 +43,22 @@ class MainScreenView(MDScreen):
         super(MainScreenView, self).__init__(**kwargs)
         self.task_manager = task_repository
         self.list_manager = list_repository
+        self.notifier = NotificationManager()
 
     def init_list(self):
         try:
             my_list = self.list_manager.get_by_name(self.selected_list)
             self.list = {'ID': my_list.id, 'Name': self.selected_list}
-        except Exception as e:
-            print(e)
+        except DatabaseException as e:
+            self.notifier.notify(e.user_error_message)
 
     def on_enter(self, *args):
         self.init_list()
         try:
             self.tasks = self.task_manager.get_tasks_by_list_id(self.list['ID'])
             self.populate_screen()
-        except Exception as e:
-            print(e)
+        except DatabaseException as e:
+            self.notifier.notify(e.user_error_message)
 
     def populate_screen(self):
         for task in self.tasks:
@@ -64,7 +66,7 @@ class MainScreenView(MDScreen):
             content.ids.content.text = task.content
             panel = MDExpansionPanel(icon="linux-mint", content=content, panel_cls=MDExpansionPanelThreeLine(
                 text=task.title,
-                secondary_text=f'Due Date: {task.date.date()}',
+                secondary_text=f'Due Date: {task.date.date() if task.date else "Not scheduled"}',
                 tertiary_text=f'{task.priority}',
                 font_style='Body1',
                 theme_text_color='Hint'
@@ -86,9 +88,11 @@ class MainScreenView(MDScreen):
         self.ids.task.text = ''
 
     def save_task(self, task_id, title, content, date, priority):
+        if not all([title, content, priority]):
+            return self.notifier.notify('Please fill out all fields.')
         if task := self.task_manager.get_task_by_id(task_id):
-            self.update_task(task, title, content, date, priority.upper(), False)
-            return
+            return self.update_task(task, title, content, date, priority.upper(), False)
+
         list_id = self.list['ID']
         self.task_manager.create({'list_id': list_id,
                                   'title': title,
@@ -102,9 +106,8 @@ class MainScreenView(MDScreen):
         try:
             task = self.task_manager.get_task_by_id(task_id)
             self.task_manager.remove(task.id)
-        except Exception as e:
-            print(e)
-            return DatabaseException(message='Failed.')
+        except DatabaseException as e:
+            self.notifier.notify(e.user_error_message)
 
     def update_task(self, task: Task, title, content, date, priority, is_complete):
         self.task_manager.update(task, fields={
